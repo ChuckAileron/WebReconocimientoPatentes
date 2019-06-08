@@ -1,0 +1,18 @@
+h1 {
+	color: #008080
+}
+h2 {
+	color: black
+}
+
+a {
+	color: #7ABF7D;
+}
+a:hover {
+	color: #A7E5AA;
+}
+
+.btn-teal{
+  color: #FFFFFF;
+  background-color: #008080;
+}
