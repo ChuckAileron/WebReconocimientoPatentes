@@ -9,7 +9,8 @@
 	<br/>
 		<a class="btn btn-lg btn-info" href="/patentes">Ver listado de patentes registradas</a><br/><br/>
 		<a class="btn btn-lg btn-info" href="/patentes/create">Agregar nuevo vehículo</a><br/><br/>
-		<a class="btn btn-lg btn-outline-dark" href="{% url 'logout' %}">Cerrar sesión</a><br/><br/>
+		<a class="btn btn-lg btn-info" href="/patentes/search">Buscar vehículo</a><br/><br/>
+		<!--<a class="btn btn-lg btn-outline-dark" href="{% url 'logout' %}">Cerrar sesión</a><br/><br/>-->
 	{% else %}
 		<p>Para acceder al sistema debes ingresar tu usuario y clave</p>
 		<a class="btn btn-lg btn-info" href="{% url 'login' %}">Iniciar sesión</a><br/><br/>

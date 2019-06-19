@@ -13,12 +13,10 @@ class Vehiculo(models.Model):
 	vehiculos = models.Manager()
 		
 	def __str__(self):
-		print(22222)
 		return "{}".format(self.nombrePersona)
 		
 class VehiculoFactory:
 	def __init__(self):
-		print(00000)
 		self.vehiculos = []
 		#self.vehiculos.append(Vehiculo("Juan Perez", "ACBD-12", "A02", "1006", "Activo", "66666666", "asdasd@asd.cl", "555-666-777"))
 		#self.vehiculos.append(Vehiculo("Maldito Gabrielito", "FGHI-34", "A03", "1007", "Activo", "77777773", "qqqqqq@asd.cl", "666-777-888"))
@@ -27,7 +25,6 @@ class VehiculoFactory:
 		return self.vehiculos
 
 	def getVehiculo(self, rut):
-		print(33333)
 		for vehiculo in self.vehiculos:
 			if vehiculo.rut == rut:
 				return vehiculo
