@@ -1,7 +1,7 @@
 # WebReconocimientoPatentes
 
 <h2>Características</h2>
-<h3>Version 1:<h3>
+<h3>Version 1:</h3>
 <ul>
   <li>Login y registro</li>
   <li>Mostrar patentes registradas y detalle</li>
