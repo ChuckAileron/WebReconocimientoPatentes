@@ -26,7 +26,7 @@
 
 <h2>Instalación</h2>
 <ul>
-  <li>En consola/terminal ubicarse en la carpeta que contiene el proyecto</li>
+  <li>En consola/terminal ubicarse en carpeta proyecto (la primera)</li>
   <li>Ejecutar</li>
   <ul>
     <li>python manage.py migrate</li>
