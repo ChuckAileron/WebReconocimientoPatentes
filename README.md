@@ -14,7 +14,7 @@
 </ul>
 
 
-<h3>Version 2:<h3>
+<h3>Version 2:</h3>
 <ul>
   <li>Login y registro</li>
   <li>Mostrar patentes registradas y detalle</li>
