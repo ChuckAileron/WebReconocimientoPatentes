@@ -7,7 +7,7 @@
   <li>Mostrar patentes registradas y detalle</li>
   <li>Agregar nuevo vehículo</li>
 </ul>
-<h3>Errores Version 1:<h3>
+<h3>Errores Version 1:</h3>
 <ul>
   <li>Update: No encuentra vehículo para modificar</li>
   <li>Delete: No encuentra vehículo para eliminar</li>
