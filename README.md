@@ -23,3 +23,13 @@
   <li>Error Update solucionado</li>
   <li>Error Delete solucionado</li>  
 </ul>
+
+<h2>Instalación</h2>
+<ul>
+  <li>En consola/terminal ubicarse en la carpeta que contiene el proyecto</li>
+  <li>Ejecutar</li>
+  <ul>
+    <li>python manage.py migrate</li>
+    <li>python manage.py runserver</li>
+  </ul>
+</ul>
