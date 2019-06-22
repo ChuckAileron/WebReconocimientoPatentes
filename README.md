@@ -5,9 +5,9 @@
   <li>Login y registro</li>
   <li>Mostrar patentes registradas y detalle</li>
   <li>Agregar nuevo vehículo</li>
-  <li>Buscar Vehículo</li>
-  <li>Error Update solucionado</li>
-  <li>Error Delete solucionado</li>  
+  <li>Modificar vehículo</li>
+  <li>Eliminar vehículo</li>
+  <li>Buscar vehículo</li>
 </ul>
 
 <h2>Ejecución:</h2>
