@@ -24,9 +24,13 @@
   <li>Error Delete solucionado</li>  
 </ul>
 
-<h2>Instalación</h2>
+<h2>Ejecución:</h2>
 <ul>
   <li>En consola/terminal ubicarse en carpeta proyecto (la primera)</li>
+  <li>Si se está usando en Ubuntu ejecutar lo siguiente, de lo contrario continuar con el paso siguiente</li>
+  <ul>
+    <li>sudo lsof -t -i tcp:8000 | xargs kill -9</li>
+  </ul>
   <li>Ejecutar</li>
   <ul>
     <li>python manage.py migrate</li>
