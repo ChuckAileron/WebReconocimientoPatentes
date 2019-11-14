@@ -20,7 +20,7 @@
 	</ul>
 	<li>Realizar login con los siguientes datos:</li>
 	<ul>
-		<li>Nombre de usuario: conserje</li>
+		<li>Nombre de usuario: administrador</li>
 		<li>Contraseña: asd123asd123</li>
 	</ul>
 	<li>Si el usuario no está registrado (no ingresa al hacer login) crear uno nuevo en botón Registrar</li>
