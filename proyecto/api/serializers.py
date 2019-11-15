@@ -11,8 +11,10 @@ class RegistroVehiculosSerializer(serializers.ModelSerializer):
 		fields = (	'id',
 					'vehiculo',
 				  	'hora',
-					'day',
-					'month',
-					'year'
+					'fecha',
+					'entrada',
+					'salida',
+					'visto',
+					'registrado',
 				 )
 		read_only_fields = ()

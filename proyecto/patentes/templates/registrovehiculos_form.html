@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<br/>
-<h1>Modificar vehículo</h1>
-<br/>
 
+<br/>
+<h1>Indique rango de fechas de ingresos a buscar</h1>
+<br/>
 <div class="container" style="width: 28rem;">
-	<p style="margin-left: 11px;"><b>Nota:</b> Ingresar nombre completo y RUT sin puntos ni guión</p>
-	<form action="" method="post">
+	<form action="/patentes/registros/results/" method="post">
 		{% if form.errors %}
     		{% for field in form %}
         		{% for error in field.errors %}
@@ -25,16 +24,22 @@
 		
 		{% csrf_token %}
 			<table class="table table-borderless">
-				{{ form.as_table }}
 				<tr>
-					<td colspan="2">
-						<div style="text-align:center;">
-							<a class="btn btn-lg btn-outline-dark" href="/" role="button">Volver al inicio</a>
-							<button type="submit" class="btn btn-lg btn-info">Guardar</button>
-					</td>
-				</td>
+					<td>Fecha de Inicio</td>
+					<td><input type="text" id="datepickerInicio" name="fechaInicio"/></td>
+				</tr>
+				<tr>
+					<td>Fecha de Término</td>
+					<td><input type="text" id="datepickerTermino" name="fechaTermino"/></td>
+				</tr>
 			</table>
+		<div style="text-align:center;">
+			<a class="btn btn-lg btn-outline-dark" href="/" role="button">Volver al inicio</a>
+			<button type="submit" class="btn btn-lg btn-info">Ver Registros</button>
+		</div>
+		<br/>
+		<br/>
 	</form>
+	
 </div>
-
 {% endblock %}
