@@ -4,7 +4,7 @@ from django.conf.urls import url, re_path
 from django.urls import path, include
 from patentes import views
 
-from .views import AnaliticaDatos_Tiempo, AnaliticaDatos_Cantidad_al_Dia
+from .views import AnaliticaDatos_Tiempo, AnaliticaDatos_Cantidad_al_Dia, AnaliticaDatos_Horarios
 
 urlpatterns = [
 	url(r'^$', views.HomePageView.as_view(), name="index"),
@@ -21,6 +21,7 @@ urlpatterns = [
 	url(r'^patentes/analitica/$', views.AnaliticaView.as_view(), name="analitica_view"),
 	url(r'^api/analitica/datos/tiempopromedio/$', AnaliticaDatos_Tiempo, name="analitica_datos_tiempos"),
 	url(r'^api/analitica/datos/cantidad/$', AnaliticaDatos_Cantidad_al_Dia, name="analitica_datos_cantidad"),
+	url(r'^api/analitica/datos/horarios/$', AnaliticaDatos_Horarios, name="analitica_datos_horarios"),
 	path('accounts/', include('accounts.urls')),
 	path('accounts/', include('django.contrib.auth.urls'))
 ]

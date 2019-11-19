@@ -189,14 +189,14 @@ class VehiculoReconocimiento(LoginRequiredMixin, TemplateView):
 		
 		return render(request, 'vehiculo_reconocimiento.html', {'vehiculos': vehiculo, 'registro_vehiculos': registro_vehiculo})
 
-class ReportesForm(PermissionRequiredInGroupMixin, TemplateView):
-	permission_required = 'puede_buscar_vehiculos'
+class ReportesForm(PermissionRequiredInGroupMixin, LoginRequiredMixin, TemplateView):
+	permission_required = 'puede_ver_registros'
 	model = RegistroVehiculos
 	template_name = './registrovehiculos_form.html'
 	fields = ['fecha']
 
 class ReportesView(PermissionRequiredInGroupMixin, LoginRequiredMixin, TemplateView):
-	permission_required = 'puede_buscar_vehiculos'
+	permission_required = 'puede_ver_registros'
 	def post(self, request, **kwargs):
 		vehiculosResultados = []
 		nombres = []
@@ -225,17 +225,18 @@ class ReportesView(PermissionRequiredInGroupMixin, LoginRequiredMixin, TemplateV
 		
 		return render(request, 'registrovehiculos_results.html', {'reporte': reporte})
 
-class AnaliticaView(TemplateView):
-	#permission_required = 'ÑEEEEEEEEEEEEEEEEEEEEEEEE'
+class AnaliticaView(PermissionRequiredInGroupMixin, LoginRequiredMixin, TemplateView):
+	permission_required = 'puede_ver_analiticas'
 	template_name = './analytics.html'
 	
+# Funcion que construye el set de datos para la analitica de tiempo promedio de estancia de visita y servicios
 def AnaliticaDatos_Tiempo(request, *args, **kwargs):
 	visitas_tiempo = []
 	servicios_tiempo = []
 	tiempo_promedio = []
 	resultado_tiempo = 0
 
-	queryVisitas = "SELECT api_registrovehiculos.hora, api_registrovehiculos.entrada, api_registrovehiculos.salida FROM (api_registrovehiculos INNER JOIN patentes_vehiculo ON api_registrovehiculos.vehiculo = patentes_vehiculo.id) WHERE patentes_vehiculo.tipo = 'Residente';"
+	queryVisitas = "SELECT api_registrovehiculos.hora, api_registrovehiculos.entrada, api_registrovehiculos.salida FROM (api_registrovehiculos INNER JOIN patentes_vehiculo ON api_registrovehiculos.vehiculo = patentes_vehiculo.id) WHERE patentes_vehiculo.tipo = 'Visita';"
 	visitas = QueryBD(queryVisitas)
 	
 	# Si no existen datos, se agrega un cero
@@ -277,11 +278,12 @@ def AnaliticaDatos_Tiempo(request, *args, **kwargs):
 	}
 	return JsonResponse(data)
 
+# Funcion que construye el set de datos para la analitica de cantidad de visitas y servicios en el dia
 def AnaliticaDatos_Cantidad_al_Dia(request, *args, **kwargs):
 	fecha = time.strftime("%Y-%m-%d")
-	fecha = '2019-09-20'
+	#fecha = '2019-09-20'
 	
-	queryVisitas = "SELECT COUNT(*) FROM (api_registrovehiculos INNER JOIN patentes_vehiculo ON api_registrovehiculos.vehiculo = patentes_vehiculo.id) WHERE patentes_vehiculo.tipo = 'Residente' AND api_registrovehiculos.fecha = '" + fecha + "';"
+	queryVisitas = "SELECT COUNT(*) FROM (api_registrovehiculos INNER JOIN patentes_vehiculo ON api_registrovehiculos.vehiculo = patentes_vehiculo.id) WHERE patentes_vehiculo.tipo = 'Visita' AND api_registrovehiculos.fecha = '" + fecha + "';"
 	visitas = QueryBD(queryVisitas)
 
 	queryServicios = "SELECT COUNT(*) FROM (api_registrovehiculos INNER JOIN patentes_vehiculo ON api_registrovehiculos.vehiculo = patentes_vehiculo.id) WHERE patentes_vehiculo.tipo = 'Servicios' AND api_registrovehiculos.fecha = '" + fecha + "';"
@@ -292,5 +294,56 @@ def AnaliticaDatos_Cantidad_al_Dia(request, *args, **kwargs):
 	data = {
 		"labels": labels,
 		"cantidad": [visitas[0][0], servicios[0][0]],
+	}
+	return JsonResponse(data)
+
+# Funcion que construye el set de datos para la analitica de cantidad de ingreso de visitas al mes por horario
+def AnaliticaDatos_Horarios(request, *args, **kwargs):
+	fecha = time.strftime("%Y-%m-%d")
+	auxFecha = fecha.split("-")
+	
+	fecha_inicio = auxFecha[0] + "-" + auxFecha[1] + "-01"
+	fecha_termino = auxFecha[0] + "-" + auxFecha[1] + "-30"
+	#fecha_inicio = '2019-09-01'
+	#fecha_termino = '2019-09-30'
+	
+	labels = []
+	cantidad = []
+	
+	cantidad_por_horarios = [["0:00", 0], ["1:00", 0], ["2:00", 0], ["3:00", 0],
+							["4:00", 0], ["5:00", 0], ["6:00", 0], ["7:00", 0],
+							["8:00", 0], ["9:00", 0], ["10:00", 0], ["11:00", 0],
+							["12:00", 0], ["13:00", 0], ["14:00", 0], ["15:00", 0],
+							["16:00", 0], ["17:00", 0], ["18:00", 0], ["19:00", 0],
+							["20:00", 0], ["21:00", 0], ["22:00", 0], ["23:00", 0]]
+	
+	queryVisitas = "SELECT * FROM (api_registrovehiculos INNER JOIN patentes_vehiculo ON api_registrovehiculos.vehiculo = patentes_vehiculo.id) WHERE patentes_vehiculo.tipo = 'Visita' AND api_registrovehiculos.entrada = 1 AND api_registrovehiculos.fecha > '" + fecha_inicio + "' AND api_registrovehiculos.fecha < '" + fecha_termino + "';"
+	visitas = QueryBD(queryVisitas)
+	
+	# Realiza los conteos para cada horario
+	i = 0
+	while i < len(visitas):
+		aux = (visitas[i][1]).split(":")
+		aux = str(aux[0] + ":00")
+		j = 0
+		while j < len(cantidad_por_horarios):
+			if (aux == cantidad_por_horarios[j][0]):
+				cont = cantidad_por_horarios[j][1] + 1
+				cantidad_por_horarios[j][1] = cont
+			j = j + 1
+		i = i + 1
+
+	# Ordena resultados de las tuplas en orden descendente
+	resultado = sorted(cantidad_por_horarios, key=lambda x: x[1], reverse=True)
+	
+	i = 0
+	while i < len(resultado):
+		labels.append(resultado[i][0])
+		cantidad.append(resultado[i][1])
+		i = i + 1
+
+	data = {
+		"labels": labels,
+		"cantidad": cantidad,
 	}
 	return JsonResponse(data)
