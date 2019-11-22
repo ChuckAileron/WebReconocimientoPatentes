@@ -302,8 +302,17 @@ def AnaliticaDatos_Horarios(request, *args, **kwargs):
 	fecha = time.strftime("%Y-%m-%d")
 	auxFecha = fecha.split("-")
 	
+	#31 días : enero, marzo , mayo, julio ,agosto , octubre y diciembre.
+	#30 días : abril , junio , septiembre y noviembre.
+	
 	fecha_inicio = auxFecha[0] + "-" + auxFecha[1] + "-01"
-	fecha_termino = auxFecha[0] + "-" + auxFecha[1] + "-30"
+	if (auxFecha[1] == '4') or (auxFecha[1] == '04') or (auxFecha[1] == '6') or (auxFecha[1] == '06') or (auxFecha[1] == '9') or (auxFecha[1] == '09') or (auxFecha[1] == '11'):
+		fecha_termino = auxFecha[0] + "-" + auxFecha[1] + "-30"
+	elif (auxFecha[1] == '2') or (auxFecha[1] == '02'):
+		fecha_termino = auxFecha[0] + "-" + auxFecha[1] + "-28"
+	else:
+		fecha_termino = auxFecha[0] + "-" + auxFecha[1] + "-31"
+
 	#fecha_inicio = '2019-09-01'
 	#fecha_termino = '2019-09-30'
 	
